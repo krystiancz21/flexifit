@@ -26,19 +26,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 //@EnableMethodSecurity
 public class SecurityConfiguration {
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth->auth
-//                        .requestMatchers("/authenticate","/register").permitAll()
-//                        .anyRequest().authenticated())
-//                // sesja nie przechowujestanu użytkownika.
-//                .exceptionHandling(auth->auth.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-//                .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//        // Dodanie filtra do walidacji tokena przy każdym żądaniu
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 //    private final LogoutHandler logoutHandler;
@@ -50,8 +37,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/v1/auth/**")
                         .permitAll()
-                        .anyRequest()
+                        .requestMatchers("/api/v1/tickets/**")
                         .authenticated()
+                        .anyRequest()
+                        .permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
