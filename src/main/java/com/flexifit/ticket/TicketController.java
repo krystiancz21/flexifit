@@ -58,7 +58,7 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Element o ID: " + id + " nie istnieje");
     }
 
-    @PostMapping("/{ticketId}/purchaseBy/{userId}")
+    @PostMapping("/{ticketId}/purchased-by/{userId}")
     public ResponseEntity<TicketResponse> buyTicket(@PathVariable Long ticketId, @PathVariable Long userId) {
         Ticket ticket = ticketService.buyServiceTicket(ticketId, userId);
         TicketResponse ticketResponse = TicketResponse.builder()

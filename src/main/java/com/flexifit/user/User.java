@@ -2,6 +2,7 @@ package com.flexifit.user;
 
 import com.flexifit.groupclass.GroupClass;
 import com.flexifit.ticket.Ticket;
+import com.flexifit.usergroupclass.UserGroupClass;
 import com.flexifit.userticket.UserTicket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<UserTicket> userTickets;
+
+     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+     private List<UserGroupClass> userGroupClasses;
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Token> tokens;

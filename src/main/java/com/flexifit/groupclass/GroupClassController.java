@@ -61,4 +61,20 @@ public class GroupClassController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("Element o ID: " + id + " nie istnieje");
     }
-} 
+
+    @PostMapping("/{classId}/purchased-by/{userId}")
+    public ResponseEntity<GroupClassResponse> purchaseGroupClass(
+            @PathVariable Long classId,
+            @PathVariable Long userId
+    ) {
+        GroupClass groupClass = groupClassService.buyGroupClass(classId, userId);
+        GroupClassResponse groupClassResponse = GroupClassResponse.builder()
+                .id(groupClass.getId())
+                .name(groupClass.getName())
+                .description(groupClass.getDescription())
+                .activityDay(groupClass.getActivityDay())
+                .capacity(groupClass.getCapacity())
+                .build();
+        return ResponseEntity.ok(groupClassResponse);
+    }
+}
