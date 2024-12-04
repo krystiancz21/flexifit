@@ -38,6 +38,8 @@ public class SecurityConfiguration {
                         req.requestMatchers("/api/v1/auth/**")
                         .permitAll()
                         .requestMatchers("/api/v1/tickets/**")
+                        .permitAll()
+                        .requestMatchers("/api/v1/group-classes/**")
                         .authenticated()
                         .anyRequest()
                         .permitAll()
