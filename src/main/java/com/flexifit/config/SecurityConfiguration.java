@@ -42,6 +42,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/v1/tickets").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/tickets/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/tickets/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/tickets/upload-image").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/tickets/images/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/group-classes").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/group-classes/{id}").permitAll()
                         .requestMatchers("/api/v1/group-classes/{classId}/purchased-by/{userId}").authenticated()

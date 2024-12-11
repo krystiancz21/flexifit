@@ -5,10 +5,19 @@ import com.flexifit.user.UserRepository;
 import com.flexifit.userticket.UserTicket;
 import com.flexifit.userticket.UserTicketRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class TicketService {
@@ -16,6 +25,12 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
     private final UserTicketRepository userTicketRepository;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public TicketService(TicketRepository ticketRepository, UserRepository userRepository, UserTicketRepository userTicketRepository) {
         this.ticketRepository = ticketRepository;
@@ -73,5 +88,34 @@ public class TicketService {
                 .build();
 
         return userTicketRepository.save(userTicket);
+    }
+
+    public String saveImage(MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("Plik jest pusty");
+        }
+
+        // Walidacja typu pliku
+        String contentType = file.getContentType();
+        if (contentType == null || !(contentType.equals("image/jpeg") || contentType.equals("image/png"))) {
+            throw new IllegalArgumentException("Dozwolone są tylko pliki JPG i PNG");
+        }
+
+        // Generowanie unikalnej nazwy pliku
+        String fileName = UUID.randomUUID().toString() + "_" + 
+                         file.getOriginalFilename().replaceAll("[^a-zA-Z0-9.-]", "_");
+        
+        // Tworzenie ścieżki do zapisu
+        Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        // Zapis pliku
+        Path filePath = uploadPath.resolve(fileName).normalize();
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        
+        // Zwracanie URL do pliku
+        return "/api/v1/tickets/images/" + fileName;
     }
 }

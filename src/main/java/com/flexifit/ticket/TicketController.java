@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -93,6 +96,18 @@ public class TicketController {
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/upload-image")
+    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) {
+        try {
+            String imageUrl = ticketService.saveImage(file);
+            return ResponseEntity.ok(new HashMap<String, String>() {{
+                put("imageUrl", imageUrl);
+            }});
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body("Błąd podczas wgrywania zdjęcia: " + e.getMessage());
         }
     }
 }
