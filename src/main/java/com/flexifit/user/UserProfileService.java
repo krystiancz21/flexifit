@@ -30,17 +30,23 @@ public class UserProfileService {
 
         List<GroupClass> groupClasses = userGroupClassRepository.findByUser(user)
                 .stream()
-                .map(userGroupClass -> userGroupClass.getGroupClass())
+                .map(UserGroupClass::getGroupClass)
                 .toList();
 
-        List<Ticket> tickets = userTicketRepository.findByUser(user)
+        List<Map<String, Object>> ticketsInfo = userTicketRepository.findByUser(user)
                 .stream()
-                .map(userTicket -> userTicket.getTicket())
+                .map(userTicket -> {
+                    Map<String, Object> ticketInfo = new HashMap<>();
+                    ticketInfo.put("ticket", userTicket.getTicket());
+                    ticketInfo.put("expirationDate", userTicket.getExpirationDate());
+                    ticketInfo.put("purchaseDate", userTicket.getPurchaseDate());
+                    return ticketInfo;
+                })
                 .toList();
 
         Map<String, Object> reservations = new HashMap<>();
         reservations.put("groupClasses", groupClasses);
-        reservations.put("tickets", tickets);
+        reservations.put("tickets", ticketsInfo);
 
         return reservations;
     }

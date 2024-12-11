@@ -37,7 +37,9 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         if (userDetails instanceof User) {
-            claims.put("role", ((User) userDetails).getRole().name());
+            User user = (User) userDetails;
+            claims.put("role", user.getRole().name());
+            claims.put("userId", user.getId());
         }
         return generateToken(claims, userDetails);
     }
@@ -81,5 +83,10 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public Long extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userId", Long.class);
     }
 }
