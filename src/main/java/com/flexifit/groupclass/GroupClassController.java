@@ -23,10 +23,14 @@ public class GroupClassController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GroupClass> getGroupClassById(@PathVariable Long id) {
-        return groupClassService.getGroupClassById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getGroupClassById(@PathVariable Long id) {
+        try {
+            return groupClassService.getGroupClassById(id)
+                    .map(ResponseEntity::ok)
+                    .orElseThrow(() -> new IllegalArgumentException("Group class not found with ID: " + id));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @PostMapping
@@ -34,12 +38,16 @@ public class GroupClassController {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
-        GroupClass createdGroupClass = groupClassService.createGroupClass(groupClass);
-        return ResponseEntity.ok(createdGroupClass);
+        try {
+            GroupClass createdGroupClass = groupClassService.createGroupClass(groupClass);
+            return ResponseEntity.ok(createdGroupClass);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateGroupClass(
+    public ResponseEntity<?> updateGroupClass(
             @PathVariable Long id,
             @Valid @RequestBody GroupClass groupClassDetails,
             BindingResult result
@@ -47,34 +55,44 @@ public class GroupClassController {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
-        return groupClassService.updateGroupClass(id, groupClassDetails)
-                .<ResponseEntity<Object>>map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Element o ID: " + id + " nie istnieje"));
+        try {
+            return groupClassService.updateGroupClass(id, groupClassDetails)
+                    .map(ResponseEntity::ok)
+                    .orElseThrow(() -> new IllegalArgumentException("Group class not found with ID: " + id));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteGroupClass(@PathVariable Long id) {
-        if (groupClassService.deleteGroupClass(id)) {
-            return ResponseEntity.ok("Usunięto element o ID: " + id);
+        try {
+            if (groupClassService.deleteGroupClass(id)) {
+                return ResponseEntity.ok("Deleted group class with ID: " + id);
+            }
+            throw new IllegalArgumentException("Group class not found with ID: " + id);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Element o ID: " + id + " nie istnieje");
     }
 
     @PostMapping("/{classId}/purchased-by/{userId}")
-    public ResponseEntity<GroupClassResponse> purchaseGroupClass(
+    public ResponseEntity<?> purchaseGroupClass(
             @PathVariable Long classId,
             @PathVariable Long userId
     ) {
-        GroupClass groupClass = groupClassService.buyGroupClass(classId, userId);
-        GroupClassResponse groupClassResponse = GroupClassResponse.builder()
-                .id(groupClass.getId())
-                .name(groupClass.getName())
-                .description(groupClass.getDescription())
-                .activityDay(groupClass.getActivityDay())
-                .capacity(groupClass.getCapacity())
-                .build();
-        return ResponseEntity.ok(groupClassResponse);
+        try {
+            GroupClass groupClass = groupClassService.buyGroupClass(classId, userId);
+            GroupClassResponse groupClassResponse = GroupClassResponse.builder()
+                    .id(groupClass.getId())
+                    .name(groupClass.getName())
+                    .description(groupClass.getDescription())
+                    .activityDay(groupClass.getActivityDay())
+                    .capacity(groupClass.getCapacity())
+                    .build();
+            return ResponseEntity.ok(groupClassResponse);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

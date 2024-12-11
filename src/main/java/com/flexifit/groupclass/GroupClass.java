@@ -25,17 +25,17 @@ public class GroupClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Nazwa jest wymagana")
+    @NotBlank(message = "Name is required")
     private String name;
 
     private String description;
 
-    @NotNull(message = "Data i czas są wymagane")
+    @NotNull(message = "Date and time are required")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime activityDay;
 
-    @NotNull(message = "Pojemność jest wymagana")
-    @Min(value = 1, message = "Pojemność musi być większa niż 0")
+    @NotNull(message = "Capacity is required")
+    @Min(value = 1, message = "Capacity must be greater than 0")
     private Integer capacity;
 
     @OneToMany(mappedBy = "groupClass", cascade = CascadeType.ALL, orphanRemoval = true)

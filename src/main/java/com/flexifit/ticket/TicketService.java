@@ -6,6 +6,7 @@ import com.flexifit.userticket.UserTicket;
 import com.flexifit.userticket.UserTicketRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class TicketService {
         return ticketRepository.findById(id).map(ticket -> {
             ticket.setName(ticketDetails.getName());
             ticket.setDescription(ticketDetails.getDescription());
-            ticket.setValidityPeriod(ticketDetails.getValidityPeriod());
+            ticket.setDurationInDays(ticketDetails.getDurationInDays());
             ticket.setPrice(ticketDetails.getPrice());
             ticket.setImageUrl(ticketDetails.getImageUrl());
             ticket.setAllowedEntries(ticketDetails.getAllowedEntries());
@@ -55,19 +56,22 @@ public class TicketService {
         return false;
     }
 
-    public Ticket buyServiceTicket(Long ticketId, Long userId) {
+    public UserTicket buyServiceTicket(Long ticketId, Long userId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expirationDate = now.plusDays(ticket.getDurationInDays());
+
         UserTicket userTicket = UserTicket.builder()
                 .user(user)
                 .ticket(ticket)
+                .purchaseDate(now)
+                .expirationDate(expirationDate)
                 .build();
 
-        userTicketRepository.save(userTicket);
-
-        return ticket;
+        return userTicketRepository.save(userTicket);
     }
 }
