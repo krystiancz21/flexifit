@@ -77,6 +77,15 @@ public class TicketService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        // Sprawdzenie, czy użytkownik już posiada aktywny bilet tego samego rodzaju
+        boolean hasActiveTicket = userTicketRepository.findByUserIdAndTicketId(userId, ticketId)
+                .stream()
+                .anyMatch(userTicket -> userTicket.getExpirationDate().isAfter(LocalDateTime.now()));
+
+        if (hasActiveTicket) {
+            throw new IllegalArgumentException("User already have an active ticket of this kind");
+        }
+
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expirationDate = now.plusDays(ticket.getDurationInDays());
 

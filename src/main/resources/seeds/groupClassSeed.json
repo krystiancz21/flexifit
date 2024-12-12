@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Yoga Flow",
+    "description": "Dynamiczna praktyka jogi łącząca oddech z płynnymi sekwencjami asan",
+    "activityDay": "2025-03-20T18:00",
+    "capacity": 15
+  },
+  {
+    "name": "Zumba Fitness",
+    "description": "Energetyczne zajęcia taneczne łączące rytmy latynoskie z ćwiczeniami fitness",
+    "activityDay": "2025-03-20T19:30",
+    "capacity": 20
+  },
+  {
+    "name": "CrossFit",
+    "description": "Intensywny trening funkcjonalny łączący ćwiczenia siłowe z kardio",
+    "activityDay": "2025-03-21T17:00",
+    "capacity": 12
+  },
+  {
+    "name": "Pilates",
+    "description": "Wzmacnianie mięśni głębokich, poprawa postawy i elastyczności",
+    "activityDay": "2025-03-21T18:30",
+    "capacity": 15
+  },
+  {
+    "name": "Body Pump",
+    "description": "Trening siłowy z wykorzystaniem sztang i hantli przy energetycznej muzyce",
+    "activityDay": "2025-03-22T17:30",
+    "capacity": 18
+  },
+  {
+    "name": "Stretching",
+    "description": "Zajęcia rozciągające dla poprawy elastyczności i regeneracji",
+    "activityDay": "2025-03-22T19:00",
+    "capacity": 20
+  },
+  {
+    "name": "HIIT",
+    "description": "Interwałowy trening o wysokiej intensywności",
+    "activityDay": "2025-03-23T09:00",
+    "capacity": 15
+  },
+  {
+    "name": "Spinning",
+    "description": "Intensywny trening cardio na rowerach stacjonarnych",
+    "activityDay": "2025-03-23T10:30",
+    "capacity": 16
+  },
+  {
+    "name": "Core Training",
+    "description": "Wzmacnianie mięśni brzucha, pleców i stabilizacji",
+    "activityDay": "2025-03-23T12:00",
+    "capacity": 20
+  }
+] 

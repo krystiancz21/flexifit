@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Karnet OPEN Premium",
+    "description": "Pełny dostęp do siłowni, zajęć grupowych i strefy wellness",
+    "durationInDays": 30,
+    "price": 249.99,
+    "status": "ACTIVE",
+    "allowedEntries": "Unlimited"
+  },
+  {
+    "name": "Karnet OPEN Standard",
+    "description": "Nielimitowany dostęp do siłowni i zajęć grupowych",
+    "durationInDays": 30,
+    "price": 199.99,
+    "status": "ACTIVE",
+    "allowedEntries": "Unlimited"
+  },
+  {
+    "name": "Karnet Siłownia",
+    "description": "Dostęp tylko do siłowni bez limitu wejść",
+    "durationInDays": 30,
+    "price": 149.99,
+    "status": "ACTIVE",
+    "allowedEntries": "Unlimited"
+  },
+  {
+    "name": "Karnet Student",
+    "description": "Karnet studencki - siłownia i zajęcia grupowe (ważna legitymacja)",
+    "durationInDays": 30,
+    "price": 129.99,
+    "status": "ACTIVE",
+    "allowedEntries": "Unlimited"
+  }
+] 
