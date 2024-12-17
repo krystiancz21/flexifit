@@ -66,7 +66,7 @@ _Podgląd rezerwacji użytkownika z możliwoscią anulowania aktywnych rezerwacj
 1. Sklonuj repozytorium:
 
 ```bash
-git clone [adres-repozytorium]
+git clone
 ```
 
 2. Zainstaluj zależności:
@@ -98,12 +98,10 @@ Aplikacja będzie dostępna pod adresem: `http://localhost:3000`
 
 3. Skonfiguruj zmienne środowiskowe w `application.properties`
 
-4. Zainicjalizuj projekt Maven poleceniem:
+4. Uruchom aplikację korzystając z dedykowanego środowiska IDE (np. NetBeans, IntelliJ)  lub wykorzystaj polecenia:
 ```bash
 mvn clean install
 ```
-
-5. Uruchom aplikację korzystając z dedykowanego środowiska IDE (np. NetBeans, IntelliJ) lub wykorzystaj polecenie:
 
 ```bash
 mvn spring-boot:run
