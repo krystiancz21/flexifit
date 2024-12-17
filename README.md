@@ -98,7 +98,12 @@ Aplikacja będzie dostępna pod adresem: `http://localhost:3000`
 
 3. Skonfiguruj zmienne środowiskowe w `application.properties`
 
-4. Uruchom aplikację:
+4. Zainicjalizuj projekt Maven poleceniem:
+```bash
+mvn clean install
+```
+
+5. Uruchom aplikację korzystając z dedykowanego środowiska IDE (np. NetBeans, IntelliJ) lub wykorzystaj polecenie:
 
 ```bash
 mvn spring-boot:run
