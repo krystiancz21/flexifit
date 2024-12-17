@@ -81,9 +81,9 @@ export default function RegisterPage() {
         password: formData.password
       })
 
-      if (response.status === 201) {
-        router.push('/login')
-      }
+      // if (response.status === 201) {
+      router.push('/login')
+      // }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.response?.data?.message || 'Wystąpił błąd podczas rejestracji')
